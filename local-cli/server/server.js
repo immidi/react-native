@@ -30,6 +30,9 @@ function _server(argv, config, resolve, reject) {
     default: 8081,
     type: 'string',
   }, {
+    command: 'infixExts',
+    type: 'string',
+  }, {
     command: 'host',
     default: '',
     type: 'string',
@@ -79,6 +82,10 @@ function _server(argv, config, resolve, reject) {
     additionalRoots.forEach(root => {
       args.projectRoots.push(path.resolve(root));
     });
+  }
+
+  if(args.infixExts) {
+    args.infixExts = argToArray(args.infixExts);
   }
 
   args.assetRoots = args.assetRoots

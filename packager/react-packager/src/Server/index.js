@@ -78,6 +78,10 @@ const validateOpts = declareOpts({
       'html', 'pdf', // Document formats
     ],
   },
+  infixExts: {
+    type: 'array',
+    default: [],
+  },
   transformTimeoutInterval: {
     type: 'number',
     required: false,
@@ -121,6 +125,10 @@ const bundleOpts = declareOpts({
     type: 'string',
     required: true,
   },
+  infixExt: {
+    type: 'string',
+    required: false
+  },
   runBeforeMainModule: {
     type: 'array',
     default: [
@@ -150,6 +158,10 @@ const dependencyOpts = declareOpts({
   platform: {
     type: 'string',
     required: true,
+  },
+  infixExt: {
+    type: 'string',
+    required: false
   },
   dev: {
     type: 'boolean',
@@ -208,6 +220,7 @@ class Server {
     this._assetServer = new AssetServer({
       projectRoots: opts.projectRoots,
       assetExts: opts.assetExts,
+      infixExts: opts.infixExts
     });
 
     const bundlerOpts = Object.create(opts);

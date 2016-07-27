@@ -41,6 +41,10 @@ const validateOpts = declareOpts({
     type: 'array',
     required: true,
   },
+  infixExts: {
+    type: 'array',
+    required: false
+  }
 });
 
 class AssetServer {
