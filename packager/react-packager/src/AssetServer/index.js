@@ -52,6 +52,7 @@ class AssetServer {
     const opts = validateOpts(options);
     this._roots = opts.projectRoots;
     this._assetExts = opts.assetExts;
+    this._infixExts = opts.infixExts;
   }
 
   get(assetPath, platform = null) {
