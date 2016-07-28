@@ -55,15 +55,14 @@ class AssetServer {
     this._infixExts = opts.infixExts;
   }
 
-  get(assetPath, platform = null) {
-    const assetData = getAssetDataFromName(assetPath, new Set([platform]));
-    return this._getAssetRecord(assetPath, platform).then(record => {
+  get(assetPath, platforms = null) {
+    const assetData = getAssetDataFromName(assetPath, new Set([platforms]), this._infixExts);
+    return this._getAssetRecord(assetPath, platforms).then(record => {
       for (let i = 0; i < record.scales.length; i++) {
         if (record.scales[i] >= assetData.resolution) {
           return readFile(record.files[i]);
         }
       }
-
       return readFile(record.files[record.files.length - 1]);
     });
   }
@@ -107,7 +106,6 @@ class AssetServer {
    */
   _getAssetRecord(assetPath, platform = null) {
     const filename = path.basename(assetPath);
-
     return (
       this._findRoot(
         this._roots,
@@ -121,14 +119,13 @@ class AssetServer {
       .then(res => {
         const dir = res[0];
         const files = res[1];
-        const assetData = getAssetDataFromName(filename, new Set([platform]));
+        const assetData = getAssetDataFromName(filename, new Set([platform]), this._infixExts);
 
         const map = this._buildAssetMap(dir, files, platform);
 
         let record;
         if (platform != null){
-          record = map[getAssetKey(assetData.assetName, platform)] ||
-                   map[assetData.assetName];
+          record = map[getAssetKey(assetData.assetName, platform, assetData.infixExt)] || map[assetData.assetName];
         } else {
           record = map[assetData.assetName];
         }
@@ -204,12 +201,15 @@ class AssetServer {
   }
 
   _getAssetDataFromName(platform, file) {
-    return getAssetDataFromName(file, platform);
+    return getAssetDataFromName(file, platform, this._infixExts);
   }
 }
 
-function getAssetKey(assetName, platform) {
-  if (platform != null) {
+function getAssetKey(assetName, platform, infixExt) {
+  if(platform != null && infixExt != null && assetName != null) {
+    var assetNameArr = assetName.split('.');
+    return `${assetNameArr[0]}.${infixExt}.${assetNameArr[1]} : ${platform}`;
+  } else if (platform != null && assetName != null) {
     return `${assetName} : ${platform}`;
   } else {
     return assetName;

@@ -28,6 +28,7 @@ describe('AssetServer', () => {
   });
 
   describe('assetServer.get', () => {
+
     pit('should work for the simple case', () => {
       const server = new AssetServer({
         projectRoots: ['/root'],
@@ -57,6 +58,7 @@ describe('AssetServer', () => {
       const server = new AssetServer({
         projectRoots: ['/root'],
         assetExts: ['png'],
+        infixExts: ['d', 'e']
       });
 
       fs.__setMockFilesystem({
@@ -66,13 +68,21 @@ describe('AssetServer', () => {
             'b.android.png': 'b android image',
             'c.png': 'c general image',
             'c.android.png': 'c android image',
+            'b.d.ios.png': 'b d ios image',
+            'b.d.android.png': 'b d android image',
           }
         }
       });
 
       return Promise.all([
-        server.get('imgs/b.png', 'ios').then(
-          data => expect(data).toBe('b ios image')
+        server.get('imgs/b.d.png', 'ios').then(
+          data => expect(data).toBe('b d ios image')
+        ),
+        server.get('imgs/b.d.png', 'android').then(
+          data => expect(data).toBe('b d android image')
+        ),
+        server.get('imgs/b.d.ios.png').then(
+          data => expect(data).toBe('b d ios image')
         ),
         server.get('imgs/b.png', 'android').then(
           data => expect(data).toBe('b android image')
