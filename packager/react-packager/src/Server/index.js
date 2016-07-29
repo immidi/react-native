@@ -10,9 +10,10 @@
 
 const Activity = require('../Activity');
 const AssetServer = require('../AssetServer');
-const FileWatcher = require('node-haste').FileWatcher;
-const getPlatformExtension = require('node-haste').getPlatformExtension;
-const getInfixExtension = require('node-haste').getInfixExtension;
+const FileWatcher = require('../node-haste').FileWatcher;
+const getPlatformExtension = require('../node-haste').getPlatformExtension;
+const getInfixExtension = require('../node-haste').getInfixExtension;
+
 const Bundler = require('../Bundler');
 const Promise = require('promise');
 const SourceMapConsumer = require('source-map').SourceMapConsumer;
