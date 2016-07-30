@@ -90,7 +90,7 @@ function getPackagerServer(args, config) {
       'html', 'pdf', // Document formats
     ],
     infixExts: args.infixExts || [],
-    resetCache: args.resetCache || args['reset-cache'],
+    resetCache: args.resetCache,
     verbose: args.verbose,
   });
 }
