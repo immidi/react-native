@@ -390,7 +390,7 @@ describe('processRequest', () => {
 
   describe('buildBundleFromUrl(options)', () => {
     pit('Calls the bundler with the correct args', () => {
-      return server.buildBundleFromUrl('/path/to/foo.bundle?dev=false&runModule=false')
+      return server.buildBundleFromUrl('/path/to/foo.bundle?dev=false&runModule=false&infixExt=b')
         .then(() =>
           expect(Bundler.prototype.bundle).toBeCalledWith({
             entryFile: 'path/to/foo.js',
@@ -398,13 +398,14 @@ describe('processRequest', () => {
             minify: false,
             hot: false,
             runModule: false,
-            sourceMapUrl: '/path/to/foo.map?dev=false&runModule=false',
+            sourceMapUrl: '/path/to/foo.map?dev=false&runModule=false&infixExt=b',
             dev: false,
             platform: undefined,
             runBeforeMainModule: ['InitializeJavaScriptAppEngine'],
             unbundle: false,
             entryModuleOnly: false,
             isolateModuleIDs: false,
+            infixExt: 'b'
           })
         );
     });

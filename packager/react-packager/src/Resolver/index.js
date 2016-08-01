@@ -43,6 +43,10 @@ const validateOpts = declareOpts({
     type: 'array',
     required: true,
   },
+  infixExts: {
+    type: 'array',
+    required: false,
+  },
   cache: {
     type: 'object',
     required: true,
@@ -88,6 +92,7 @@ class Resolver {
       roots: opts.projectRoots,
       assetRoots_DEPRECATED: opts.assetRoots,
       assetExts: opts.assetExts,
+      infixExts: opts.infixExts,
       ignoreFilePath: function(filepath) {
         return filepath.indexOf('__tests__') !== -1 ||
           (opts.blacklistRE && opts.blacklistRE.test(filepath));

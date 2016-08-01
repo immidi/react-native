@@ -12,6 +12,7 @@ const Activity = require('../Activity');
 const AssetServer = require('../AssetServer');
 const FileWatcher = require('node-haste').FileWatcher;
 const getPlatformExtension = require('node-haste').getPlatformExtension;
+const getInfixExtension = require('node-haste').getInfixExtension;
 const Bundler = require('../Bundler');
 const Promise = require('promise');
 const SourceMapConsumer = require('source-map').SourceMapConsumer;
@@ -226,6 +227,7 @@ class Server {
     const bundlerOpts = Object.create(opts);
     bundlerOpts.fileWatcher = this._fileWatcher;
     bundlerOpts.assetServer = this._assetServer;
+
     this._bundler = new Bundler(bundlerOpts);
 
     this._fileWatcher.on('all', this._onFileChange.bind(this));
@@ -258,8 +260,12 @@ class Server {
       if (!options.platform) {
         options.platform = getPlatformExtension(options.entryFile);
       }
+      if (!options.infixExt) {
+        options.infixExt = getInfixExtension(options.entryFile);
+      }
 
       const opts = bundleOpts(options);
+
       return this._bundler.bundle(opts);
     });
   }
@@ -646,6 +652,10 @@ class Server {
     const platform = urlObj.query.platform ||
       getPlatformExtension(pathname);
 
+    // try to get the infixExts from the url
+    const infixExt = urlObj.query.infixExt ||
+      getInfixExtension(pathname);
+
     return {
       sourceMapUrl: url.format(sourceMapUrlObj),
       entryFile: entryFile,
@@ -664,6 +674,7 @@ class Server {
         'entryModuleOnly',
         false,
       ),
+      infixExt: infixExt,
     };
   }
 

@@ -73,6 +73,10 @@ const validateOpts = declareOpts({
     type: 'array',
     default: ['png'],
   },
+  infixExts: {
+    type: 'array',
+    default: [],
+  },
   fileWatcher: {
     type: 'object',
     required: true,
@@ -140,6 +144,7 @@ class Bundler {
       assetRoots: opts.assetRoots,
       fileWatcher: opts.fileWatcher,
       assetExts: opts.assetExts,
+      infixExts: opts.infixExts,
       cache: this._cache,
       transformCode:
         (module, code, options) =>
@@ -167,6 +172,7 @@ class Bundler {
     const {dev, minify, unbundle} = options;
     const moduleSystemDeps =
       this._resolver.getModuleSystemDependencies({dev, unbundle});
+
     return this._bundle({
       ...options,
       bundle: new Bundle({dev, minify, sourceMapUrl: options.sourceMapUrl}),
