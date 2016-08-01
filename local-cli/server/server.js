@@ -14,85 +14,16 @@ const parseCommandLine = require('../util/parseCommandLine');
 const path = require('path');
 const Promise = require('promise');
 const runServer = require('./runServer');
+const findSymlinksPaths = require('./findSymlinksPaths');
 
 /**
  * Starts the React Native Packager Server.
  */
-function server(argv, config) {
-  return new Promise((resolve, reject) => {
-    _server(argv, config, resolve, reject);
-  });
-}
-
-function _server(argv, config, resolve, reject) {
-  const args = parseCommandLine([{
-    command: 'port',
-    default: 8081,
-    type: 'string',
-  }, {
-    command: 'infixExts',
-    type: 'string',
-  }, {
-    command: 'host',
-    default: '',
-    type: 'string',
-  }, {
-    command: 'root',
-    type: 'string',
-    description: 'add another root(s) to be used by the packager in this project',
-  }, {
-    command: 'projectRoots',
-    type: 'string',
-    description: 'override the root(s) to be used by the packager',
-  },{
-    command: 'assetRoots',
-    type: 'string',
-    description: 'specify the root directories of app assets'
-  }, {
-    command: 'skipflow',
-    description: 'Disable flow checks'
-  }, {
-    command: 'nonPersistent',
-    description: 'Disable file watcher'
-  }, {
-    command: 'transformer',
-    type: 'string',
-    default: null,
-    description: 'Specify a custom transformer to be used'
-  }, {
-    command: 'resetCache',
-    description: 'Removes cached files',
-    default: false,
-  }, {
-    command: 'reset-cache',
-    description: 'Removes cached files',
-    default: false,
-  }, {
-    command: 'verbose',
-    description: 'Enables logging',
-    default: false,
-  }]);
-
-  args.projectRoots = args.projectRoots
-    ? argToArray(args.projectRoots)
-    : config.getProjectRoots();
-
-  if (args.root) {
-    const additionalRoots = argToArray(args.root);
-    additionalRoots.forEach(root => {
-      args.projectRoots.push(path.resolve(root));
-    });
-  }
-
-  if(args.infixExts) {
-    args.infixExts = argToArray(args.infixExts);
-  }
-
-  args.assetRoots = args.assetRoots
-    ? argToArray(args.assetRoots).map(dir =>
-      path.resolve(process.cwd(), dir)
-    )
-    : config.getAssetRoots();
+function server(argv, config, args) {
+  args.projectRoots = args.projectRoots.concat(
+    args.root,
+    findSymlinkPaths(path.resolve(process.cwd(), 'node_modules'))
+  );
 
   console.log(formatBanner(
     'Running packager on port ' + args.port + '.\n\n' +
