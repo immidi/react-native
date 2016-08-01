@@ -172,7 +172,7 @@ class Bundler {
     const {dev, minify, unbundle, infixExt} = options;
     const moduleSystemDeps =
       this._resolver.getModuleSystemDependencies({dev, unbundle, infixExt});
-
+    
     return this._bundle({
       ...options,
       bundle: new Bundle({dev, minify, sourceMapUrl: options.sourceMapUrl}),
