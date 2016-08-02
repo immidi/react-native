@@ -160,7 +160,7 @@ describe('processRequest', () => {
   pit('passes in the platform param', function() {
     return makeRequest(
       requestHandler,
-      'index.bundle?platform=ios'
+      'index.bundle?platform=ios&infixExt=b'
     ).then(function(response) {
       expect(response.body).toEqual('this is the source');
       expect(Bundler.prototype.bundle).toBeCalledWith({
@@ -169,8 +169,9 @@ describe('processRequest', () => {
         minify: false,
         hot: false,
         runModule: true,
-        sourceMapUrl: 'index.map?platform=ios',
+        sourceMapUrl: 'index.map?platform=ios&infixExt=b',
         dev: true,
+        infixExt: 'b',
         platform: 'ios',
         runBeforeMainModule: ['InitializeJavaScriptAppEngine'],
         unbundle: false,

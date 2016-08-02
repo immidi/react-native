@@ -72,6 +72,10 @@ const getDependenciesValidateOpts = declareOpts({
     type: 'string',
     required: false,
   },
+  infixExt: {
+    type: 'string',
+    required: false
+  },
   unbundle: {
     type: 'boolean',
     default: false
