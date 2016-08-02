@@ -68,7 +68,7 @@ class AssetServer {
   }
 
   getAssetData(assetPath, platform = null) {
-    const nameData = getAssetDataFromName(assetPath, new Set([platform]));
+    const nameData = getAssetDataFromName(assetPath, new Set([platform]), this._infixExts);
     const data = {
       name: nameData.name,
       type: nameData.type,
