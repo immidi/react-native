@@ -96,7 +96,7 @@ class Resolver {
       roots: opts.projectRoots,
       assetRoots_DEPRECATED: opts.assetRoots,
       assetExts: opts.assetExts,
-      infixExts: opts.infixExts,
+      infixExtensions: opts.infixExts,
       ignoreFilePath: function(filepath) {
         return filepath.indexOf('__tests__') !== -1 ||
           (opts.blacklistRE && opts.blacklistRE.test(filepath));
@@ -146,7 +146,7 @@ class Resolver {
     return this._depGraph.getDependencies({
       entryPath,
       platform,
-      infixExt,
+      infix: infixExt,
       transformOptions,
       recursive,
       onProgress,

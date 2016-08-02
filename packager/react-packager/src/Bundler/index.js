@@ -355,7 +355,6 @@ class Bundler {
     infixExt,
   }) {
     const findEventId = Activity.startEvent('find dependencies');
-    console.log('infixExt ', infixExt);
     const modulesByName = Object.create(null);
 
     if (!resolutionResponse) {
