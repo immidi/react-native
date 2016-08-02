@@ -90,4 +90,53 @@ function argToArray(arg) {
   return Array.isArray(arg) ? arg : arg.split(',');
 }
 
-module.exports = server;
+module.exports = {
+  name: 'start',
+  func: server,
+  description: 'starts the webserver',
+  options: [{
+    command: '--port [number]',
+    default: 8081,
+    parse: (val) => Number(val),
+  }, {
+    command: '--host [string]',
+    default: '',
+  }, {
+    command: '--root [list]',
+    description: 'add another root(s) to be used by the packager in this project',
+    parse: (val) => val.split(',').map(root => path.resolve(root)),
+    default: [],
+  }, {
+    command: '--projectRoots [list]',
+    description: 'override the root(s) to be used by the packager',
+    parse: (val) => val.split(','),
+    default: (config) => config.getProjectRoots(),
+  }, {
+    command: '--assetRoots [list]',
+    description: 'specify the root directories of app assets',
+    parse: (val) => val.split(',').map(dir => path.resolve(process.cwd(), dir)),
+    default: (config) => config.getAssetRoots(),
+  }, {
+    command: '--assetExts [list]',
+    description: 'Specify any additional asset extentions to be used by the packager',
+    parse: (val) => val.split(','),
+    default: (config) => config.getAssetExts(),
+  }, {
+    command: '--skipflow',
+    description: 'Disable flow checks'
+  }, {
+    command: '--nonPersistent',
+    description: 'Disable file watcher'
+  }, {
+    command: '--transformer [string]',
+    default: require.resolve('../../packager/transformer'),
+    description: 'Specify a custom transformer to be used (absolute path)'
+  }, {
+    command: '--reset-cache, --resetCache',
+    description: 'Removes cached files',
+  }, {
+    command: '--verbose',
+    description: 'Enables logging',
+  }],
+};
+
