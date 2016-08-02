@@ -169,9 +169,9 @@ class Bundler {
   }
 
   bundle(options) {
-    const {dev, minify, unbundle} = options;
+    const {dev, minify, unbundle, infixExt} = options;
     const moduleSystemDeps =
-      this._resolver.getModuleSystemDependencies({dev, unbundle});
+      this._resolver.getModuleSystemDependencies({dev, unbundle, infixExt});
 
     return this._bundle({
       ...options,
@@ -253,6 +253,7 @@ class Bundler {
     entryModuleOnly,
     resolutionResponse,
     isolateModuleIDs,
+    infixExt,
   }) {
     const onResolutionResponse = response => {
       bundle.setMainModuleId(response.getModuleId(getMainModule(response)));
@@ -296,6 +297,7 @@ class Bundler {
       onResolutionResponse,
       finalizeBundle,
       isolateModuleIDs,
+      infixExt,
     });
   }
 
@@ -350,8 +352,10 @@ class Bundler {
     onResolutionResponse = noop,
     onModuleTransformed = noop,
     finalizeBundle = noop,
+    infixExt,
   }) {
     const findEventId = Activity.startEvent('find dependencies');
+    console.log('infixExt ', infixExt);
     const modulesByName = Object.create(null);
 
     if (!resolutionResponse) {
@@ -371,6 +375,7 @@ class Bundler {
         dev,
         platform,
         hot,
+        infixExt,
         onProgress,
         minify,
         isolateModuleIDs,
@@ -473,12 +478,14 @@ class Bundler {
     generateSourceMaps = false,
     isolateModuleIDs = false,
     onProgress,
+    infixExt,
   }) {
     return this.getTransformOptions(
       entryFile,
       {
         dev,
         platform,
+        infixExt,
         hot,
         generateSourceMaps,
         projectRoots: this._projectRoots,
@@ -488,12 +495,13 @@ class Bundler {
         minify,
         dev,
         platform,
+        infixExt,
         transform: transformSpecificOptions,
       };
 
       return this._resolver.getDependencies(
         entryFile,
-        {dev, platform, recursive},
+        {dev, platform, recursive, infixExt},
         transformOptions,
         onProgress,
         isolateModuleIDs ? createModuleIdFactory() : this._getModuleId,

@@ -142,10 +142,11 @@ class Resolver {
   }
 
   getDependencies(entryPath, options, transformOptions, onProgress, getModuleId) {
-    const {platform, recursive} = getDependenciesValidateOpts(options);
+    const {platform, recursive, infixExt} = getDependenciesValidateOpts(options);
     return this._depGraph.getDependencies({
       entryPath,
       platform,
+      infixExt,
       transformOptions,
       recursive,
       onProgress,
