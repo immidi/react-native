@@ -447,11 +447,12 @@ class ResolutionRequest {
         {test: this._infixExt, value: this._infixExt},
         {test: this._platform, value: this._platform},
       ].filter(addition => addition.test));
-      permutations.unshift([]);
+
       const possibleFileNames = permutations.map(additions => ResolutionRequest._addAdditions(potentialModulePath, additions) + '.js');
       for (let x = 0; x < possibleFileNames.length; ++x) {
         if (this._fastfs.fileExists(possibleFileNames[x])) {
           file = possibleFileNames[x];
+          break;
         }
       }
 
