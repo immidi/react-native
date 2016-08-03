@@ -100,12 +100,12 @@ describe('DependencyGraph', function() {
         'parse',
       ],
       platforms: ['ios', 'android'],
-      infixExtensions: ['b', 'c'],
+      infixExts: ['b', 'c'],
       shouldThrowOnUnresolvedErrors: () => false,
     };
   });
 
-  pit('should work with both infix and platform', function() {
+  pit('should work with both infixExt and platform', function() {
     var root = '/root';
     setMockFileSystem({
       'root': {

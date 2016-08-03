@@ -12,7 +12,7 @@ const Activity = require('../Activity');
 const AssetServer = require('../AssetServer');
 const FileWatcher = require('../node-haste').FileWatcher;
 const getPlatformExtension = require('../node-haste').getPlatformExtension;
-const getInfixExtension = require('../node-haste').getInfixExtension;
+const getInfixExt = require('../node-haste').getInfixExt;
 
 const Bundler = require('../Bundler');
 const Promise = require('promise');
@@ -258,7 +258,7 @@ class Server {
         options.platform = getPlatformExtension(options.entryFile);
       }
       if (!options.infixExt) {
-        options.infixExt = getInfixExtension(options.entryFile);
+        options.infixExt = getInfixExt(options.entryFile);
       }
 
       const opts = bundleOpts(options);
@@ -651,7 +651,7 @@ class Server {
 
     // try to get the infixExts from the url
     const infixExt = urlObj.query.infixExt ||
-      getInfixExtension(pathname);
+      getInfixExt(pathname);
 
     return {
       sourceMapUrl: url.format(sourceMapUrlObj),

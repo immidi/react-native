@@ -28,16 +28,16 @@ function getPlatformExtension(file, platforms = SUPPORTED_PLATFORM_EXTS) {
   return !match ? null : match[1];
 }
 
-// Extract the infix extension from the file name, 
+// Extract the infixExt extension from the file name,
 // specified by the list of possible extensions
-function getInfixExtension(file, infixExtensions = SUPPORTED_INFIX_EXTS) {
-  if ([...infixExtensions].length === 0) {
+function getInfixExt(file, infixExts = SUPPORTED_INFIX_EXTS) {
+  if ([...infixExts].length === 0) {
     return null;
   }
   const fileWithoutPath = file.split('/').pop();
-  const platformRegex = new RegExp(`\.(${[...infixExtensions].join('|')})\.`);
+  const platformRegex = new RegExp(`\.(${[...infixExts].join('|')})\.`);
   const match = platformRegex.exec(fileWithoutPath);
   return !match ? null : match[1];
 }
 
-module.exports = {getInfixExtension, getPlatformExtension};
+module.exports = {getInfixExt, getPlatformExtension};

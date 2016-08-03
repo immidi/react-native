@@ -18,7 +18,7 @@ const crawl = require('./crawlers');
 const extractRequires = require('./lib/extractRequires');
 const getAssetDataFromName = require('./lib/getAssetDataFromName');
 const getInverseDependencies = require('./lib/getInverseDependencies');
-const { getPlatformExtension, getInfixExtension } = require('./lib/getExtensions');
+const { getPlatformExtension, getInfixExt } = require('./lib/getExtensions');
 const isAbsolutePath = require('absolute-path');
 const replacePatterns = require('./lib/replacePatterns');
 const path = require('./fastpath');
@@ -57,7 +57,7 @@ class DependencyGraph {
     assetDependencies,
     moduleOptions,
     extraNodeModules,
-    infixExtensions,
+    infixExts,
   }) {
     this._opts = {
       activity: activity || defaultActivity,
@@ -79,7 +79,7 @@ class DependencyGraph {
         cacheTransformResults: true,
       },
       extraNodeModules,
-      infixExtensions: new Set(infixExtensions || []),
+      infixExts: new Set(infixExts || []),
     };
     this._cache = cache;
     this._assetDependencies = assetDependencies;
@@ -125,7 +125,7 @@ class DependencyGraph {
       platforms: this._opts.platforms,
       assetDependencies: this._assetDependencies,
       moduleOptions: this._opts.moduleOptions,
-      infixExtensions: this._opts.infixExtensions,
+      infixExts: this._opts.infixExts,
     });
 
     this._hasteMap = new HasteMap({
@@ -205,14 +205,14 @@ class DependencyGraph {
   getDependencies({
     entryPath,
     platform,
-    infix,
+    infixExt,
     transformOptions,
     onProgress,
     recursive = true,
   }) {
     return this.load().then(() => {
       platform = this._getRequestPlatform(entryPath, platform);
-      infix = this._getRequestInfix(entryPath, infix);
+      infixExt = this._getRequestInfix(entryPath, infixExt);
       const absPath = this._getAbsolutePath(entryPath);
       const req = new ResolutionRequest({
         platform,
@@ -226,8 +226,8 @@ class DependencyGraph {
         fastfs: this._fastfs,
         shouldThrowOnUnresolvedErrors: this._opts.shouldThrowOnUnresolvedErrors,
         extraNodeModules: this._opts.extraNodeModules,
-        infix,
-        infixExtensions: this._opts.infixExtensions,
+        infixExt,
+        infixExts: this._opts.infixExts,
       });
 
       const response = new ResolutionResponse({transformOptions});
@@ -255,13 +255,13 @@ class DependencyGraph {
     return platform;
   }
 
-  _getRequestInfix(entryPath, infix) {
-    if (infix == null) {
-      infix = getInfixExtension(entryPath, this._opts.infixExtensions);
-    } else if (!this._opts.infixExtensions.has(infix)) {
-      throw new Error('Unrecognized platform: ' + infix);
+  _getRequestInfix(entryPath, infixExt) {
+    if (infixExt == null) {
+      infixExt = getInfixExt(entryPath, this._opts.infixExts);
+    } else if (!this._opts.infixExts.has(infixExt)) {
+      throw new Error(`Unrecognized infix: ${infixExt} of available: ${JSON.stringify(this._opts.infixExts)}`);
     }
-    return infix;
+    return infixExt;
   }
 
   _getAbsolutePath(filePath) {
@@ -332,7 +332,7 @@ Object.assign(DependencyGraph, {
   extractRequires,
   getAssetDataFromName,
   getPlatformExtension,
-  getInfixExtension,
+  getInfixExt,
   replacePatterns,
   getInverseDependencies,
 });

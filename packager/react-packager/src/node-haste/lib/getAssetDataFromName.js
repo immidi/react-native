@@ -9,13 +9,13 @@
 'use strict';
 
 const path = require('../fastpath');
-const {getPlatformExtension, getInfixExtension} = require('./getExtensions');
+const {getPlatformExtension, getInfixExt} = require('./getExtensions');
 const permute = require('./permutations');
 
-function getAssetDataFromName(filename, platforms, infixExtensions) {
+function getAssetDataFromName(filename, platforms, infixExts) {
   const ext = path.extname(filename);
   const platformExt = getPlatformExtension(filename, platforms);
-  const infixExt = getInfixExtension(filename, infixExtensions);
+  const infixExt = getInfixExt(filename, infixExts);
 
   const resolutionPattern = {
     test: 'resolution',

@@ -4,9 +4,9 @@ const Module = require('./Module');
 const getAssetDataFromName = require('./lib/getAssetDataFromName');
 
 class AssetModule extends Module {
-  constructor({platforms, infixExtensions, ...rest}) {
+  constructor({platforms, infixExts, ...rest}) {
     super(rest);
-    const { resolution, name, type } = getAssetDataFromName(this.path, platforms, infixExtensions);
+    const { resolution, name, type } = getAssetDataFromName(this.path, platforms, infixExts);
     this.resolution = resolution;
     this._name = name;
     this._type = type;

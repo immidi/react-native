@@ -146,7 +146,7 @@ class Resolver {
     return this._depGraph.getDependencies({
       entryPath,
       platform,
-      infix: infixExt,
+      infixExt,
       transformOptions,
       recursive,
       onProgress,

@@ -11,7 +11,7 @@
 jest.dontMock('../getExtensions');
 
 var getPlatformExtension = require('../getExtensions').getPlatformExtension;
-var getInfixExtension = require('../getExtensions').getInfixExtension;
+var getInfixExt = require('../getExtensions').getInfixExt;
 
 describe('getPlatformExtension', function() {
   it('should get platform ext', function() {
@@ -33,13 +33,13 @@ describe('getPlatformExtension', function() {
     expect(getPlatformExtension('a.ubuntu.js', new Set(['ubuntu']))).toBe('ubuntu');
   });
 
-  it('should get infix ext', function() {
-    expect(getInfixExtension('a.b.js', ['b'])).toBe('b');
-    expect(getInfixExtension('a.b.js', ['a', 'b'])).toBe('b');
-    expect(getInfixExtension('/b/c/a.e.js', ['e'])).toBe('e');
-    expect(getInfixExtension('/b/c.android/a.e.js', ['e'])).toBe('e');
-    expect(getInfixExtension('/b/c/a@1.5x.e.png', ['e'])).toBe('e');
-    expect(getInfixExtension('/b/c/a@1.5x.lol.png', ['e'])).toBe(null);
-    expect(getInfixExtension('/b/c/a.lol.png')).toBe(null);
+  it('should get infixExt', function() {
+    expect(getInfixExt('a.b.js', ['b'])).toBe('b');
+    expect(getInfixExt('a.b.js', ['a', 'b'])).toBe('b');
+    expect(getInfixExt('/b/c/a.e.js', ['e'])).toBe('e');
+    expect(getInfixExt('/b/c.android/a.e.js', ['e'])).toBe('e');
+    expect(getInfixExt('/b/c/a@1.5x.e.png', ['e'])).toBe('e');
+    expect(getInfixExt('/b/c/a@1.5x.lol.png', ['e'])).toBe(null);
+    expect(getInfixExt('/b/c/a.lol.png')).toBe(null);
   });
 });

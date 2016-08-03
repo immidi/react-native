@@ -31,8 +31,8 @@ class ResolutionRequest {
     fastfs,
     shouldThrowOnUnresolvedErrors,
     extraNodeModules,
-    infix,
-    infixExtensions,
+    infixExt,
+    infixExts,
   }) {
     this._platform = platform;
     this._platforms = platforms;
@@ -46,8 +46,8 @@ class ResolutionRequest {
     this._shouldThrowOnUnresolvedErrors = shouldThrowOnUnresolvedErrors;
     this._extraNodeModules = extraNodeModules;
     this._resetResolutionCache();
-    this._infix = infix;
-    this._infixExtensions = infixExtensions;
+    this._infixExt = infixExt;
+    this._infixExts = infixExts;
   }
 
   _tryResolve(action, secondaryAction) {
@@ -407,12 +407,12 @@ class ResolutionRequest {
           );
         }
 
-        const {name, type} = getAssetDataFromName(potentialModulePath, this._platforms, this._infixExtensions);
+        const {name, type} = getAssetDataFromName(potentialModulePath, this._platforms, this._infixExts);
 
         const permutations = permute([
           { test: true, value: '(@[\\d\\.]+x)?' },
           { test: this._platform, value: '(\\.' + this._platform + ')?' },
-          { test: this._infix, value: '(\\.' + this._infix + ')?' },
+          { test: this._infixExt, value: '(\\.' + this._infixExt + ')?' },
         ].filter(addition => addition.test));
 
         for (let i = 0; i < permutations.length; ++i) {
