@@ -1,4 +1,4 @@
- /**
+/**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
  *
@@ -16,6 +16,7 @@ const path = require('../fastpath');
 const realPath = require('path');
 const isAbsolutePath = require('absolute-path');
 const getAssetDataFromName = require('../lib/getAssetDataFromName');
+const permute = require('../lib/permutations');
 
 class ResolutionRequest {
   constructor({
@@ -30,6 +31,8 @@ class ResolutionRequest {
     fastfs,
     shouldThrowOnUnresolvedErrors,
     extraNodeModules,
+    infix,
+    infixExtensions,
   }) {
     this._platform = platform;
     this._platforms = platforms;
@@ -43,6 +46,8 @@ class ResolutionRequest {
     this._shouldThrowOnUnresolvedErrors = shouldThrowOnUnresolvedErrors;
     this._extraNodeModules = extraNodeModules;
     this._resetResolutionCache();
+    this._infix = infix;
+    this._infixExtensions = infixExtensions;
   }
 
   _tryResolve(action, secondaryAction) {
@@ -91,7 +96,7 @@ class ResolutionRequest {
     };
 
     if (!this._helpers.isNodeModulesDir(fromModule.path)
-        && !(isRelativeImport(toModuleName) || isAbsolutePath(toModuleName))) {
+      && !(isRelativeImport(toModuleName) || isAbsolutePath(toModuleName))) {
       return this._tryResolve(
         () => this._resolveHasteDependency(fromModule, toModuleName),
         () => this._resolveNodeDependency(fromModule, toModuleName)
@@ -134,23 +139,23 @@ class ResolutionRequest {
       const addMockDependencies = !allMocks
         ? (module, result) => result
         : (module, [dependencyNames, dependencies]) => {
-          const list = [module.getName()];
-          const pkg = module.getPackage();
-          if (pkg) {
-            list.push(pkg.getName());
-          }
-          return Promise.all(list).then(names => {
-            names.forEach(name => {
-              if (allMocks[name] && !mocks[name]) {
-                const mockModule = this._moduleCache.getModule(allMocks[name]);
-                dependencyNames.push(name);
-                dependencies.push(mockModule);
-                mocks[name] = allMocks[name];
-              }
-            });
-            return [dependencyNames, dependencies];
+        const list = [module.getName()];
+        const pkg = module.getPackage();
+        if (pkg) {
+          list.push(pkg.getName());
+        }
+        return Promise.all(list).then(names => {
+          names.forEach(name => {
+            if (allMocks[name] && !mocks[name]) {
+              const mockModule = this._moduleCache.getModule(allMocks[name]);
+              dependencyNames.push(name);
+              dependencies.push(mockModule);
+              mocks[name] = allMocks[name];
+            }
           });
-        };
+          return [dependencyNames, dependencies];
+        });
+      };
 
       const collectedDependencies = new MapWithDefaults(module => collect(module));
       const crawlDependencies = (mod, [depNames, dependencies]) => {
@@ -316,8 +321,8 @@ class ResolutionRequest {
 
   _resolveFileOrDir(fromModule, toModuleName) {
     const potentialModulePath = isAbsolutePath(toModuleName) ?
-        toModuleName :
-        path.join(path.dirname(fromModule.path), toModuleName);
+      toModuleName :
+      path.join(path.dirname(fromModule.path), toModuleName);
 
     return this._redirectRequire(fromModule, potentialModulePath).then(
       realModuleName => {
@@ -398,53 +403,76 @@ class ResolutionRequest {
           throw new UnableToResolveError(
             fromModule,
             toModule,
-            `Directory ${dirname} doesn't exist`,
+            `Directory ${dirname} doesn't exist`
           );
         }
 
-        const {name, type} = getAssetDataFromName(potentialModulePath, this._platforms);
+        const {name, type} = getAssetDataFromName(potentialModulePath, this._platforms, this._infixExtensions);
 
-        let pattern = '^' + name + '(@[\\d\\.]+x)?';
-        if (this._platform != null) {
-          pattern += '(\\.' + this._platform + ')?';
-        }
-        pattern += '\\.' + type;
+        const permutations = permute([
+          { test: true, value: '(@[\\d\\.]+x)?' },
+          { test: this._platform, value: '(\\.' + this._platform + ')?' },
+          { test: this._infix, value: '(\\.' + this._infix + ')?' },
+        ].filter(addition => addition.test));
 
-        // We arbitrarly grab the first one, because scale selection
-        // will happen somewhere
-        const [assetFile] = this._fastfs.matches(
-          dirname,
-          new RegExp(pattern)
-        );
+        for (let i = 0; i < permutations.length; ++i) {
+          const permutation = permutations[i];
+          let pattern = '^' + name;
+          for (let j = 0; j < permutation.length; ++j) {
+            pattern += permutation[j].value;
+          }
+          pattern += '\\.' + type;
 
-        if (assetFile) {
-          return this._moduleCache.getAssetModule(assetFile);
+          // We arbitrarly grab the first one, because scale selection
+          // will happen somewhere else
+          const [assetFile] = this._fastfs.matches(
+            dirname,
+            new RegExp(pattern)
+          );
+
+          if (assetFile) {
+            return this._moduleCache.getAssetModule(assetFile);
+          }
         }
       }
 
       let file;
+
       if (this._fastfs.fileExists(potentialModulePath)) {
-        file = potentialModulePath;
-      } else if (this._platform != null &&
-                 this._fastfs.fileExists(potentialModulePath + '.' + this._platform + '.js')) {
-        file = potentialModulePath + '.' + this._platform + '.js';
-      } else if (this._preferNativePlatform &&
-                 this._fastfs.fileExists(potentialModulePath + '.native.js')) {
-        file = potentialModulePath + '.native.js';
-      } else if (this._fastfs.fileExists(potentialModulePath + '.js')) {
-        file = potentialModulePath + '.js';
-      } else if (this._fastfs.fileExists(potentialModulePath + '.json')) {
+        return this._moduleCache.getModule(potentialModulePath);
+      }
+
+      const permutations = permute([
+        {test: this._preferNativePlatform, value: 'native'},
+        {test: this._infix, value: this._infix},
+        {test: this._platform, value: this._platform},
+      ].filter(addition => addition.test));
+      permutations.unshift([]);
+      const possibleFileNames = permutations.map(additions => ResolutionRequest._addAdditions(potentialModulePath, additions) + '.js');
+      for (let x = 0; x < possibleFileNames.length; ++x) {
+        if (this._fastfs.fileExists(possibleFileNames[x])) {
+          file = possibleFileNames[x];
+        }
+      }
+
+      if (!file && this._fastfs.fileExists(potentialModulePath + '.json')) {
         file = potentialModulePath + '.json';
-      } else {
+      }
+
+      if (!file) {
         throw new UnableToResolveError(
           fromModule,
           toModule,
-          `File ${potentialModulePath} doesnt exist`,
+          `File ${potentialModulePath} does not exist`,
         );
       }
 
       return this._moduleCache.getModule(file);
     });
+  }
+
+  static _addAdditions(potentialModuleName, additions) {
+    return additions.length === 0 ? potentialModuleName : potentialModuleName + '.' + additions.map(addition => addition.value).join('.');
   }
 
   _loadAsDir(potentialDirPath, fromModule, toModule) {
@@ -453,7 +481,7 @@ class ResolutionRequest {
         throw new UnableToResolveError(
           fromModule,
           toModule,
-`Unable to find this module in its module map or any of the node_modules directories under ${potentialDirPath} and its parent directories
+          `Unable to find this module in its module map or any of the node_modules directories under ${potentialDirPath} and its parent directories
 
 This might be related to https://github.com/facebook/react-native/issues/4968
 To resolve try the following:

@@ -1,4 +1,4 @@
- /**
+/**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
  *
@@ -11,7 +11,7 @@
 const EventEmitter = require('events');
 
 const path = require('../fastpath');
-const getPlatformExtension = require('../lib/getPlatformExtension');
+const {getPlatformExtension} = require('../lib/getExtensions');
 
 const GENERIC_PLATFORM = 'generic';
 const NATIVE_PLATFORM = 'native';

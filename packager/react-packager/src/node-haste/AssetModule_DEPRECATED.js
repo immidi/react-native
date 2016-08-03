@@ -4,9 +4,9 @@ const Module = require('./Module');
 const getAssetDataFromName = require('./lib/getAssetDataFromName');
 
 class AssetModule_DEPRECATED extends Module {
-  constructor(args, platforms) {
+  constructor({...args, platforms, infixExtensions}) {
     super(args);
-    const {resolution, name} = getAssetDataFromName(this.path, platforms);
+    const {resolution, name} = getAssetDataFromName(this.path, platforms, infixExtensions);
     this.resolution = resolution;
     this.name = name;
     this.platforms = platforms;

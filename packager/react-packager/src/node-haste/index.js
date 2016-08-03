@@ -1,4 +1,4 @@
- /**
+/**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
  *
@@ -18,7 +18,7 @@ const crawl = require('./crawlers');
 const extractRequires = require('./lib/extractRequires');
 const getAssetDataFromName = require('./lib/getAssetDataFromName');
 const getInverseDependencies = require('./lib/getInverseDependencies');
-const getPlatformExtension = require('./lib/getPlatformExtension');
+const { getPlatformExtension, getInfixExtension } = require('./lib/getExtensions');
 const isAbsolutePath = require('absolute-path');
 const replacePatterns = require('./lib/replacePatterns');
 const path = require('./fastpath');
@@ -57,6 +57,7 @@ class DependencyGraph {
     assetDependencies,
     moduleOptions,
     extraNodeModules,
+    infixExtensions,
   }) {
     this._opts = {
       activity: activity || defaultActivity,
@@ -78,6 +79,7 @@ class DependencyGraph {
         cacheTransformResults: true,
       },
       extraNodeModules,
+      infixExtensions: new Set(infixExtensions || []),
     };
     this._cache = cache;
     this._assetDependencies = assetDependencies;
@@ -120,9 +122,11 @@ class DependencyGraph {
       extractRequires: this._opts.extractRequires,
       transformCode: this._opts.transformCode,
       depGraphHelpers: this._helpers,
+      platforms: this._opts.platforms,
       assetDependencies: this._assetDependencies,
       moduleOptions: this._opts.moduleOptions,
-    }, this._opts.platfomrs);
+      infixExtensions: this._opts.infixExtensions,
+    });
 
     this._hasteMap = new HasteMap({
       fastfs: this._fastfs,
@@ -201,12 +205,14 @@ class DependencyGraph {
   getDependencies({
     entryPath,
     platform,
+    infix,
     transformOptions,
     onProgress,
     recursive = true,
   }) {
     return this.load().then(() => {
       platform = this._getRequestPlatform(entryPath, platform);
+      infix = this._getRequestInfix(entryPath, infix);
       const absPath = this._getAbsolutePath(entryPath);
       const req = new ResolutionRequest({
         platform,
@@ -220,6 +226,8 @@ class DependencyGraph {
         fastfs: this._fastfs,
         shouldThrowOnUnresolvedErrors: this._opts.shouldThrowOnUnresolvedErrors,
         extraNodeModules: this._opts.extraNodeModules,
+        infix,
+        infixExtensions: this._opts.infixExtensions,
       });
 
       const response = new ResolutionResponse({transformOptions});
@@ -247,6 +255,15 @@ class DependencyGraph {
     return platform;
   }
 
+  _getRequestInfix(entryPath, infix) {
+    if (infix == null) {
+      infix = getInfixExtension(entryPath, this._opts.infixExtensions);
+    } else if (!this._opts.infixExtensions.has(infix)) {
+      throw new Error('Unrecognized platform: ' + infix);
+    }
+    return infix;
+  }
+
   _getAbsolutePath(filePath) {
     if (isAbsolutePath(filePath)) {
       return path.resolve(filePath);
@@ -270,8 +287,8 @@ class DependencyGraph {
   _processFileChange(type, filePath, root, fstat) {
     const absPath = path.join(root, filePath);
     if (fstat && fstat.isDirectory() ||
-        this._opts.ignoreFilePath(absPath) ||
-        this._helpers.isNodeModulesDir(absPath)) {
+      this._opts.ignoreFilePath(absPath) ||
+      this._helpers.isNodeModulesDir(absPath)) {
       return;
     }
 
@@ -315,6 +332,7 @@ Object.assign(DependencyGraph, {
   extractRequires,
   getAssetDataFromName,
   getPlatformExtension,
+  getInfixExtension,
   replacePatterns,
   getInverseDependencies,
 });
