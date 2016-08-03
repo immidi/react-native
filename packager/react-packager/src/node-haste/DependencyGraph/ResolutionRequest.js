@@ -444,7 +444,7 @@ class ResolutionRequest {
 
       const permutations = permute([
         {test: this._preferNativePlatform, value: 'native'},
-        {test: this._infix, value: this._infix},
+        {test: this._infixExt, value: this._infixExt},
         {test: this._platform, value: this._platform},
       ].filter(addition => addition.test));
       permutations.unshift([]);
