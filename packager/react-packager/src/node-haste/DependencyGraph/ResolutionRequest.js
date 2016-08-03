@@ -447,6 +447,7 @@ class ResolutionRequest {
         {test: this._infixExt, value: this._infixExt},
         {test: this._platform, value: this._platform},
       ].filter(addition => addition.test));
+      permutations.push([]);
 
       const possibleFileNames = permutations.map(additions => ResolutionRequest._addAdditions(potentialModulePath, additions) + '.js');
       for (let x = 0; x < possibleFileNames.length; ++x) {
