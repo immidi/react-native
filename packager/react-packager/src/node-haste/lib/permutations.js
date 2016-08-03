@@ -8,19 +8,16 @@
  */
 'use strict';
 
-/**
- *
- * @param options {Array.<*>}
- * @returns {Array.<Array.<*>>}
- */
-function permutations(options) {
+function permutations(options, cutOff = 0) {
   const results = [];
   function permute(arr, memory) {
     const memo = memory || [];
     let cur;
     for (let i = 0; i < arr.length; ++i) {
       cur = arr.splice(i, 1);
-      results.push(memo.concat(cur));
+      if (arr.length === cutOff) {
+        results.push(memo.concat(cur));
+      }
       permute(arr.slice(), memo.concat(cur));
       arr.splice(i, 0, cur[0]);
     }
@@ -29,4 +26,15 @@ function permutations(options) {
   return permute(options);
 }
 
-module.exports = permutations;
+function reduce(array) {
+  let result = [];
+  for (let i = 0; i < array.length; ++i) {
+    const permutation = permutations(array, i);
+    result = result.concat(permutation);
+  }
+  return result;
+}
+
+
+
+module.exports = reduce;
