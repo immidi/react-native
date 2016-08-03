@@ -15,16 +15,16 @@ const path = require('path');
 const Promise = require('promise');
 const runServer = require('./runServer');
 const findSymlinksPaths = require('./findSymlinksPaths');
+const NODE_MODULES = path.resolve(__dirname, '..', '..', '..');
 
 /**
  * Starts the React Native Packager Server.
  */
 function server(argv, config, args) {
-  // Disabled temporarily to fix trunk
-  // args.projectRoots = args.projectRoots.concat(
-  //   args.root,
-  //   findSymlinksPaths(path.resolve(process.cwd(), 'node_modules'))
-  // );
+  args.projectRoots = args.projectRoots.concat(
+    args.root,
+    findSymlinksPaths(NODE_MODULES)
+  );
 
   console.log(formatBanner(
     'Running packager on port ' + args.port + '.\n\n' +
