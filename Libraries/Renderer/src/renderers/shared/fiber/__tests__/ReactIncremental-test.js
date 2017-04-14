@@ -11,6 +11,7 @@
 
 'use strict';
 
+var PropTypes;
 var React;
 var ReactNoop;
 var ReactFeatureFlags;
@@ -19,6 +20,7 @@ var PropTypes;
 describe('ReactIncremental', () => {
   beforeEach(() => {
     jest.resetModules();
+    PropTypes = require('prop-types');
     React = require('react');
     ReactNoop = require('ReactNoop');
     PropTypes = require('prop-types');
