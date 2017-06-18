@@ -15,7 +15,6 @@
 
 var ColorPropType = require('ColorPropType');
 var NativeMethodsMixin = require('NativeMethodsMixin');
-const PropTypes = require('prop-types');
 var React = require('React');
 const PropTypes = require('prop-types');
 var ReactNativeViewAttributes = require('ReactNativeViewAttributes');
