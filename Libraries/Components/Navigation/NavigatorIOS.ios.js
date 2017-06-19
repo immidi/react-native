@@ -15,6 +15,7 @@ var EventEmitter = require('EventEmitter');
 var Image = require('Image');
 var RCTNavigatorManager = require('NativeModules').NavigatorManager;
 var React = require('React');
+var createReactClass = require('create-react-class');
 var PropTypes = require('prop-types');
 var ReactNative = require('ReactNative');
 var StaticContainer = require('StaticContainer.react');
@@ -304,7 +305,7 @@ type Event = Object;
  * is pushed.
  *
  */
-var NavigatorIOS = React.createClass({
+var NavigatorIOS = createReactClass({
 
   propTypes: {
 

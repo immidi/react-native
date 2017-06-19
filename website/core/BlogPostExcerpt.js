@@ -12,11 +12,12 @@
 'use strict';
 
 var React = require('React');
+var createReactClass = require('create-react-class');
 var BlogPostHeader = require('BlogPostHeader');
 var Marked = require('Marked');
 var ExcerptLink = require('ExcerptLink');
 
-var BlogPostExcerpt = React.createClass({
+var BlogPostExcerpt = createReactClass({
   render: function() {
     var post = this.props.post;
     return (

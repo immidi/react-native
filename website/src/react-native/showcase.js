@@ -10,6 +10,7 @@
 
 const Metadata = require('Metadata');
 const React = require('React');
+var createReactClass = require('create-react-class');
 const ShowcaseAppIcon = require('ShowcaseAppIcon');
 const Site = require('Site');
 
@@ -35,7 +36,7 @@ const featuredApps = showcaseApps.filter(app => {
 
 const apps = pinnedApps.concat(featuredApps);
 
-const AppList = React.createClass({
+const AppList = createReactClass({
 
   render: function() {
     return (
@@ -98,7 +99,7 @@ const AppList = React.createClass({
   },
 });
 
-const showcase = React.createClass({
+const showcase = createReactClass({
   render: function() {
     return (
       <Site section="showcase" title="Showcase">

@@ -14,6 +14,7 @@ var ColorPropType = require('ColorPropType');
 var NativeMethodsMixin = require('NativeMethodsMixin');
 var Platform = require('Platform');
 var React = require('React');
+var createReactClass = require('create-react-class');
 var PropTypes = require('prop-types');
 var ReactNative = require('ReactNative');
 var StatusBar = require('StatusBar');
@@ -67,7 +68,7 @@ var DRAWER_STATES = [
  * },
  * ```
  */
-var DrawerLayoutAndroid = React.createClass({
+var DrawerLayoutAndroid = createReactClass({
   statics: {
     positions: DrawerConsts.DrawerPosition,
   },

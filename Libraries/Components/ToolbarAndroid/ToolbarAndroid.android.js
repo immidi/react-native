@@ -14,6 +14,7 @@
 var Image = require('Image');
 var NativeMethodsMixin = require('NativeMethodsMixin');
 var React = require('React');
+var createReactClass = require('create-react-class');
 var PropTypes = require('prop-types');
 var ReactNativeViewAttributes = require('ReactNativeViewAttributes');
 var UIManager = require('UIManager');
@@ -65,7 +66,7 @@ var optionalImageSource = PropTypes.oneOfType([
  *
  * [0]: https://developer.android.com/reference/android/support/v7/widget/Toolbar.html
  */
-var ToolbarAndroid = React.createClass({
+var ToolbarAndroid = createReactClass({
   mixins: [NativeMethodsMixin],
 
   propTypes: {

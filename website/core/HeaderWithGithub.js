@@ -12,6 +12,7 @@
 
 var H = require('Header');
 var React = require('React');
+var createReactClass = require('create-react-class');
 
 var PropTypes = require('prop-types');
 
@@ -19,7 +20,7 @@ function getGitHubPath(path) {
   return  'https://github.com/facebook/react-native/blob/master/' + path;
 }
 
-var HeaderWithGithub = React.createClass({
+var HeaderWithGithub = createReactClass({
 
   contextTypes: {
     version: PropTypes.string

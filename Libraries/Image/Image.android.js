@@ -16,6 +16,7 @@ var ImageStylePropTypes = require('ImageStylePropTypes');
 var NativeMethodsMixin = require('NativeMethodsMixin');
 var NativeModules = require('NativeModules');
 var React = require('React');
+var createReactClass = require('create-react-class');
 var PropTypes = require('prop-types');
 var ReactNativeViewAttributes = require('ReactNativeViewAttributes');
 var Set = require('Set');
@@ -76,7 +77,7 @@ var ImageViewAttributes = merge(ReactNativeViewAttributes.UIView, {
 var ViewStyleKeys = new Set(Object.keys(ViewStylePropTypes));
 var ImageSpecificStyleKeys = new Set(Object.keys(ImageStylePropTypes).filter(x => !ViewStyleKeys.has(x)));
 
-var Image = React.createClass({
+var Image = createReactClass({
   propTypes: {
     ...ViewPropTypes,
     style: StyleSheetPropType(ImageStylePropTypes),

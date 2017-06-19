@@ -11,8 +11,9 @@
 'use strict';
 
 var React = require('React');
+var createReactClass = require('create-react-class');
 
-var Hero = React.createClass({
+var Hero = createReactClass({
   render: function() {
     return (
       <div className="hero">

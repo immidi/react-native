@@ -13,11 +13,12 @@
 
 var Marked = require('Marked');
 var React = require('React');
+var createReactClass = require('create-react-class');
 var BlogPostHeader = require('BlogPostHeader');
 var BlogPostFooter = require('BlogPostFooter');
 var ExcerptLink = require('ExcerptLink');
 
-var BlogPost = React.createClass({
+var BlogPost = createReactClass({
   render: function() {
     var post = this.props.post;
 

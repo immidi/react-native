@@ -14,6 +14,7 @@
 
 var NativeMethodsMixin = require('NativeMethodsMixin');
 var React = require('React');
+var createReactClass = require('create-react-class');
 const PropTypes = require('prop-types');
 var StyleSheet = require('StyleSheet');
 var StyleSheetPropType = require('StyleSheetPropType');
@@ -25,7 +26,7 @@ var processColor = require('processColor');
 var itemStylePropType = StyleSheetPropType(TextStylePropTypes);
 var requireNativeComponent = require('requireNativeComponent');
 
-var PickerIOS = React.createClass({
+var PickerIOS = createReactClass({
   mixins: [NativeMethodsMixin],
 
   propTypes: {

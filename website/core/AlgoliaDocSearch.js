@@ -11,8 +11,9 @@
 'use strict';
 
 var React = require('React');
+var createReactClass = require('create-react-class');
 
-var AlgoliaDocSearch = React.createClass({
+var AlgoliaDocSearch = createReactClass({
   render: function() {
     return (
       <div className="algolia-search-wrapper">

@@ -15,6 +15,7 @@ const ColorPropType = require('ColorPropType');
 const NativeMethodsMixin = require('NativeMethodsMixin');
 const Platform = require('Platform');
 const React = require('React');
+var createReactClass = require('create-react-class');
 const PropTypes = require('prop-types');
 const ViewPropTypes = require('ViewPropTypes');
 
@@ -72,7 +73,7 @@ if (Platform.OS === 'android') {
  * in the `onRefresh` function otherwise the refresh indicator will stop immediately.
  */
 // $FlowFixMe(>=0.41.0)
-const RefreshControl = React.createClass({
+const RefreshControl = createReactClass({
   statics: {
     SIZE: RefreshLayoutConsts.SIZE,
   },

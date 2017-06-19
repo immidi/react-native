@@ -10,9 +10,10 @@
 
 var Metadata = require('Metadata');
 var React = require('React');
+var createReactClass = require('create-react-class');
 var Site = require('Site');
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   render: function() {
     var availableDocs = (Metadata.config.RN_AVAILABLE_DOCS_VERSIONS ||
       '')

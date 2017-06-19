@@ -12,8 +12,9 @@
 'use strict';
 
 var React = require('React');
+var createReactClass = require('create-react-class');
 
-const ShowcaseAppIcon = React.createClass({
+const ShowcaseAppIcon = createReactClass({
   render: function() {
     return (
       <a href={this.props.linkUri}>

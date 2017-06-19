@@ -15,6 +15,7 @@ var ColorPropType = require('ColorPropType');
 var NativeMethodsMixin = require('NativeMethodsMixin');
 var Platform = require('Platform');
 var React = require('React');
+var createReactClass = require('create-react-class');
 const PropTypes = require('prop-types');
 var StyleSheet = require('StyleSheet');
 const ViewPropTypes = require('ViewPropTypes');
@@ -38,7 +39,7 @@ type DefaultProps = {
  * @keyword toggle
  */
 // $FlowFixMe(>=0.41.0)
-var Switch = React.createClass({
+var Switch = createReactClass({
   propTypes: {
     ...ViewPropTypes,
     /**

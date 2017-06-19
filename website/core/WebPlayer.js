@@ -12,6 +12,7 @@
 
 var Prism = require('Prism');
 var React = require('React');
+var createReactClass = require('create-react-class');
 
 var WEB_PLAYER_VERSION = '1.2.6';
 
@@ -31,7 +32,7 @@ var WEB_PLAYER_VERSION = '1.2.6';
  * AppRegistry.registerComponent('MyApp', () => App);
  * ```
  */
-var WebPlayer = React.createClass({
+var WebPlayer = createReactClass({
   parseParams: function(paramString) {
     var params = {};
 

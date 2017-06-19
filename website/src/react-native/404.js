@@ -9,8 +9,9 @@
 'use strict';
 
 var React = require('React');
+var createReactClass = require('create-react-class');
 
-var fourOhFour = React.createClass({
+var fourOhFour = createReactClass({
   render: function() {
     return (
       <html>

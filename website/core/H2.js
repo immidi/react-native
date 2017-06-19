@@ -12,8 +12,9 @@
 
 var Header = require('Header');
 var React = require('React');
+var createReactClass = require('create-react-class');
 
-var H2 = React.createClass({
+var H2 = createReactClass({
   render: function() {
     return <Header {...this.props} level={2}>{this.props.children}</Header>;
   }

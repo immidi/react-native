@@ -14,6 +14,7 @@
 var Header = require('Header');
 var Prism = require('Prism');
 var React = require('React');
+var createReactClass = require('create-react-class');
 var WebPlayer = require('WebPlayer');
 var SnackPlayer = require('SnackPlayer');
 
@@ -1114,7 +1115,7 @@ marked.inlineLexer = InlineLexer.output;
 
 marked.parse = marked;
 
-var Marked = React.createClass({
+var Marked = createReactClass({
   render: function() {
     return this.props.children ?
       React.DOM.div(null, marked(this.props.children, this.props)) :

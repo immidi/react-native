@@ -16,6 +16,7 @@ const EdgeInsetsPropType = require('EdgeInsetsPropType');
 const NativeMethodsMixin = require('NativeMethodsMixin');
 const Platform = require('Platform');
 const React = require('React');
+var createReactClass = require('create-react-class');
 const PropTypes = require('prop-types');
 const ReactNativeViewAttributes = require('ReactNativeViewAttributes');
 const StyleSheetPropType = require('StyleSheetPropType');
@@ -96,7 +97,7 @@ const viewConfig = {
  */
 
 // $FlowFixMe(>=0.41.0)
-const Text = React.createClass({
+const Text = createReactClass({
   propTypes: {
     /**
      * When `numberOfLines` is set, this prop defines how text will be truncated.

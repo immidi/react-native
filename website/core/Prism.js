@@ -11,6 +11,7 @@
 'use strict';
 
 var React = require('React');
+var createReactClass = require('create-react-class');
 
 var _ = {
   util: {
@@ -338,7 +339,7 @@ _.languages.insertBefore('markup', 'tag', {
   }
 });
 
-var Prism = React.createClass({
+var Prism = createReactClass({
   statics: {
     _: _
   },

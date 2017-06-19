@@ -12,8 +12,9 @@
 'use strict';
 
 var React = require('React');
+var createReactClass = require('create-react-class');
 
-var ExcerptLink = React.createClass({
+var ExcerptLink = createReactClass({
   render: function() {
     var cta = "Read more";
 

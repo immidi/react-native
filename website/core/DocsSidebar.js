@@ -12,8 +12,9 @@
 
 var Metadata = require('Metadata');
 var React = require('React');
+var createReactClass = require('create-react-class');
 
-var DocsSidebar = React.createClass({
+var DocsSidebar = createReactClass({
   getCategories: function() {
     var metadatas = Metadata.files.filter(function(metadata) {
       return metadata.layout === 'docs' || metadata.layout === 'autodocs';

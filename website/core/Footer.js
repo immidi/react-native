@@ -11,12 +11,13 @@
 'use strict';
 
 var React = require('React');
+var createReactClass = require('create-react-class');
 
 function getGitHubPath(path) {
   return 'https://github.com/facebook/react-native/blob/master/' + path;
 }
 
-var Footer = React.createClass({
+var Footer = createReactClass({
   render: function() {
     return (
       <p className="edit-page-block">

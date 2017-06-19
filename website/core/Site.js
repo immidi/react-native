@@ -13,8 +13,9 @@
 var HeaderLinks = require('HeaderLinks');
 var Metadata = require('Metadata');
 var React = require('React');
+var createReactClass = require('create-react-class');
 
-var Site = React.createClass({
+var Site = createReactClass({
   render: function() {
     const path = Metadata.config.RN_DEPLOYMENT_PATH;
     const version = Metadata.config.RN_VERSION;

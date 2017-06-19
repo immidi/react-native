@@ -17,6 +17,7 @@ var NativeMethodsMixin = require('NativeMethodsMixin');
 var ReactNativeViewAttributes = require('ReactNativeViewAttributes');
 var Platform = require('Platform');
 var React = require('React');
+var createReactClass = require('create-react-class');
 var PropTypes = require('prop-types');
 var StyleSheet = require('StyleSheet');
 var ViewPropTypes = require('ViewPropTypes');
@@ -29,7 +30,7 @@ type Event = Object;
  * A component used to select a single value from a range of values.
  */
 // $FlowFixMe(>=0.41.0)
-var Slider = React.createClass({
+var Slider = createReactClass({
   mixins: [NativeMethodsMixin],
 
   propTypes: {
