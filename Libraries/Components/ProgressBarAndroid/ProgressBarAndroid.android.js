@@ -12,6 +12,7 @@
 
 var NativeMethodsMixin = require('NativeMethodsMixin');
 var React = require('React');
+var createReactClass = require('create-react-class');
 var PropTypes = require('prop-types');
 var ViewPropTypes = require('ViewPropTypes');
 var ColorPropType = require('ColorPropType');
@@ -63,7 +64,7 @@ var indeterminateType = function(props, propName, componentName) {
  * },
  * ```
  */
-var ProgressBarAndroid = React.createClass({
+var ProgressBarAndroid = createReactClass({
   propTypes: {
     ...ViewPropTypes,
     /**

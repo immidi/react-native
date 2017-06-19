@@ -12,6 +12,7 @@
 
 var Platform = require('Platform');
 var React = require('React');
+var createReactClass = require('create-react-class');
 var PropTypes = require('prop-types');
 var ReactNative = require('ReactNative');
 var Touchable = require('Touchable');
@@ -70,7 +71,7 @@ var PRESS_RETENTION_OFFSET = {top: 20, left: 20, right: 20, bottom: 30};
  * ```
  */
 
-var TouchableNativeFeedback = React.createClass({
+var TouchableNativeFeedback = createReactClass({
   propTypes: {
     ...TouchableWithoutFeedback.propTypes,
 

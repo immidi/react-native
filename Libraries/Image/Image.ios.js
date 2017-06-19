@@ -18,6 +18,7 @@ const ImageStylePropTypes = require('ImageStylePropTypes');
 const NativeMethodsMixin = require('NativeMethodsMixin');
 const NativeModules = require('NativeModules');
 const React = require('React');
+var createReactClass = require('create-react-class');
 const PropTypes = require('prop-types');
 const ReactNativeViewAttributes = require('ReactNativeViewAttributes');
 const StyleSheet = require('StyleSheet');
@@ -126,7 +127,7 @@ const ImageViewManager = NativeModules.ImageViewManager;
  *
  */
 // $FlowFixMe(>=0.41.0)
-const Image = React.createClass({
+const Image = createReactClass({
   propTypes: {
     /**
      * > `ImageResizeMode` is an `Enum` for different image resizing modes, set via the

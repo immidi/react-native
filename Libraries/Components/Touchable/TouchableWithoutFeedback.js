@@ -13,6 +13,7 @@
 
 const EdgeInsetsPropType = require('EdgeInsetsPropType');
 const React = require('React');
+var createReactClass = require('create-react-class');
 const PropTypes = require('prop-types');
 const TimerMixin = require('react-timer-mixin');
 const Touchable = require('Touchable');
@@ -37,7 +38,7 @@ const PRESS_RETENTION_OFFSET = {top: 20, left: 20, right: 20, bottom: 30};
  * If you wish to have several child components, wrap them in a View.
  */
 // $FlowFixMe(>=0.41.0)
-const TouchableWithoutFeedback = React.createClass({
+const TouchableWithoutFeedback = createReactClass({
   mixins: [TimerMixin, Touchable.Mixin],
 
   propTypes: {

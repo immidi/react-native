@@ -18,6 +18,7 @@ const Platform = require('Platform');
 const PointPropType = require('PointPropType');
 const PropTypes = require('prop-types');
 const React = require('React');
+var createReactClass = require('create-react-class');
 const ReactNative = require('ReactNative');
 const ScrollResponder = require('ScrollResponder');
 const ScrollViewStickyHeader = require('ScrollViewStickyHeader');
@@ -69,7 +70,7 @@ const requireNativeComponent = require('requireNativeComponent');
  * supports out of the box.
  */
 // $FlowFixMe(>=0.41.0)
-const ScrollView = React.createClass({
+const ScrollView = createReactClass({
   propTypes: {
     ...ViewPropTypes,
     /**

@@ -15,6 +15,7 @@
 
 const NativeMethodsMixin = require('NativeMethodsMixin');
 const React = require('React');
+var createReactClass = require('create-react-class');
 const PropTypes = require('prop-types');
 const StyleSheet = require('StyleSheet');
 const View = require('View');
@@ -36,7 +37,7 @@ type Event = Object;
  * source of truth.
  */
 // $FlowFixMe(>=0.41.0)
-const DatePickerIOS = React.createClass({
+const DatePickerIOS = createReactClass({
   // TOOD: Put a better type for _picker
   _picker: (undefined: ?$FlowFixMe),
 
