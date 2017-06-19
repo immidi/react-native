@@ -15,6 +15,7 @@ const Animated = require('Animated');
 const I18nManager = require('I18nManager');
 const PanResponder = require('PanResponder');
 const React = require('React');
+var createReactClass = require('create-react-class');
 const PropTypes = require('prop-types');
 const StyleSheet = require('StyleSheet');
 const TimerMixin = require('react-timer-mixin');
@@ -61,7 +62,7 @@ const RIGHT_SWIPE_THRESHOLD = 30 * SLOW_SPEED_SWIPE_FACTOR;
  * used in a normal ListView. See the renderRow for SwipeableListView to see how
  * to use this component separately.
  */
-const SwipeableRow = React.createClass({
+const SwipeableRow = createReactClass({
   _panResponder: {},
   _previousLeft: CLOSED_LEFT_POSITION,
 

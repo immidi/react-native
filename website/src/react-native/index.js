@@ -12,6 +12,7 @@ const Hero = require('Hero');
 const Metadata = require('Metadata');
 const Prism = require('Prism');
 const React = require('React');
+var createReactClass = require('create-react-class');
 const ShowcaseAppIcon = require('ShowcaseAppIcon');
 const Site = require('Site');
 
@@ -40,7 +41,7 @@ const AppList = React.createClass({
   },
 });
 
-const index = React.createClass({
+const index = createReactClass({
   render: function() {
     return (
       <Site>

@@ -15,6 +15,7 @@ const NativeMethodsMixin = require('NativeMethodsMixin');
 const NativeModules = require('NativeModules');
 const Platform = require('Platform');
 const React = require('React');
+var createReactClass = require('create-react-class');
 const PropTypes = require('prop-types');
 const ReactNativeFeatureFlags = require('ReactNativeFeatureFlags');
 const ReactNativeStyleAttributes = require('ReactNativeStyleAttributes');
@@ -81,7 +82,7 @@ const forceTouchAvailable = (NativeModules.PlatformConstants &&
  *   - `touches` - Array of all current touches on the screen.
  */
 // $FlowFixMe(>=0.41.0)
-const View = React.createClass({
+const View = createReactClass({
   // TODO: We should probably expose the mixins, viewConfig, and statics publicly. For example,
   // one of the props is of type AccessibilityComponentType. That is defined as a const[] above,
   // but it is not rendered by the docs, since `statics` below is not rendered. So its Possible

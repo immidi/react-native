@@ -13,6 +13,7 @@
 
 var NativeMethodsMixin = require('NativeMethodsMixin');
 var React = require('React');
+var createReactClass = require('create-react-class');
 var PropTypes = require('prop-types');
 var StyleSheet = require('StyleSheet');
 var ViewPropTypes = require('ViewPropTypes');
@@ -49,7 +50,7 @@ type Event = Object;
  * ````
  */
 // $FlowFixMe(>=0.41.0)
-var SegmentedControlIOS = React.createClass({
+var SegmentedControlIOS = createReactClass({
   mixins: [NativeMethodsMixin],
 
   propTypes: {
