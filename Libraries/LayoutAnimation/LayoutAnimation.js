@@ -15,7 +15,8 @@ var UIManager = require('UIManager');
 
 var keyMirror = require('fbjs/lib/keyMirror');
 
-var {checkPropTypes, PropTypes} = require('react');
+var {checkPropTypes} = require('react');
+const PropTypes = require('prop-types');
 
 var TypesEnum = {
   spring: true,
